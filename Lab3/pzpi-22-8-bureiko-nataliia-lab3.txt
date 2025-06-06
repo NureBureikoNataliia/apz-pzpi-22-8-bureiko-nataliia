@@ -1,0 +1,1071 @@
+﻿Міністерство освіти і науки України
+Харківський національний університет радіоелектроніки
+
+
+
+
+Кафедра програмної інженерії
+
+
+
+
+ЗВІТ
+ з практичної роботи №3
+з дисципліни «Архітектура програмного забезпечення»
+на тему «Розробка програмної архітектури, створення та
+відлагодження програмного коду веб клієнта
+програмної системи»
+
+
+
+
+Виконала:                                                                      Перевірив:
+студ. гр. ПЗПІ-22-8                                                       ст. викл. каф. ПІ 
+Бурейко Н. М.                                                                Сокорчук І. П.
+
+
+
+
+
+Харків 2025
+1 ІСТОРІЯ ЗМІН
+     
+     
+          У цьому розділі представлено історію внесених змін до звіту, що наведено у табл. 3.1.
+          
+          Таблиця 3.1 – Історія змін
+№ДатаВерсія звітуОпис змін та виправлень105.06.20250.1Створено титульну сторінку205.06.20250.1Створено розділ «Завдання»305.06.20250.1Створено розділ «Опис виконаної роботи»405.06.20250.1Створено розділ «Висновки»505.06.20250.1Додано посилання на відеозапис та його хронологічний опис до додатку А605.06.20250.1Додано слайди презентації до додатку Б705.06.20250.1Додано програмний код до додатку В
+     
+
+
+
+
+
+
+
+
+
+
+
+2 ЗАВДАННЯ
+
+
+     Мета лабораторної роботи М розpобити клієнтську / front-end частину програмної системи для проведення рекламної акції відповідно до вимог та поставлених цілей. За шаблон треба взяти програмну систему, яка була розроблена в минулому семестрі на курсі «Аналіз та рефакторінг коду». 
+     Необхідно навести опис прийнятих інженерних рішень, який містить опис архітектури веб частини програмної системи, програмних технологій та компонентів, захисту даних, підтримки інтерналізації та локалізації, взаємодії веб частини програмної системи з іншими компонентами програмної системи. та функціональності веб частини програмної системи. 
+
+          
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+
+3 ОПИС ВИКОНАНОЇ РОБОТИ
+
+
+     Веб частину програмної системи для проведення рекламної акції реалізовано на базі React з дотриманням компонентного підходу. Загальна структура застосунку організована через головний компонент App, який відповідає за основне компонування сторінок. Кожна сторінка представлена окремим компонентом, що відповідає за певне представлення інтерфейсу. Повторно використовувані елементи оформлення реалізовано як окремі UI-компоненти, а введення даних   через спеціалізовані форми.
+     Керування станом здійснюється за допомогою React Context API: окремі контексти відповідають за мову та автентифікацію, а локальний стан використовується в межах компонентів, де це доцільно.
+     Сервісна логіка винесена в окремі модулі: API-сервіс забезпечує зв'язок із сервером, сервіс інтернаціоналізації відповідає за багатомовність, а обробку Excel-файлів забезпечує окремий відповідний модуль.
+     Веб частина використовує React із підтримкою маршрутизації через React Router. Для побудови інтерфейсу застосовано бібліотеку Shadcn. Багатомовність реалізована через i18next, а для збереження та передачі глобального стану   Context API. 
+     Веб-інтерфейс реалізує низку ключових функцій. Зокрема, це управління опитуваннями В створення, редагування, активація або деактивація, а також збір і аналіз відповідей. У системі також реалізовано управління товарами, включаючи формування каталогу, категоризацію, редагування вітрини та завантаження зображень.
+     Крім цього, веб-частина дозволяє працювати з профілями клієнтів: переглядати історію їх взаємодії з системою, формувати рекомендації, а також експортувати дані. Аналітика охоплює збір статистики по опитуваннях та аналіз демографічних показників.
+     Система має багаторівневу модель захисту. Авторизація здійснюється через JWT-токени, що дозволяє реалізувати захищені маршрути та керування сесіями користувачів. Контроль доступу побудовано за ролями (RBAC), що дозволяє точно обмежити права на виконання тих чи інших дій. Важливу роль відіграє валідація С як на стороні клієнта, так і на рівні маршрутів.
+     Також реалізовані заходи для захисту даних: перевірка введення, хешування паролів, а також захист від поширених атак типу CSRF та XSS.
+     Веб-інтерфейс взаємодіє з сервером через REST API для виконання всіх бізнес-операцій. 
+     Підтримка багато мовності реалізована повністю: застосунок використовує бібліотеку i18next, яка дозволяє динамічно перемикати мови без перезавантаження сторінки. Система автоматично визначає мову користувача, зберігає мовні уподобання та дозволяє змінювати мову через інтерфейс.
+     На момент розробки веб-інтерфейс підтримує дві мови: англійську та українську. Локалізовані всі основні компоненти: текст інтерфейсу, повідомлення про помилки, інформація про товари, питання опитувань, а також системні повідомлення. Враховано регіональні формати дати, часу та валют.
+     Система має вбудовану панель адміністратора, яка дозволяє керувати користувачами (створення, редагування, призначення ролей), налаштовувати параметри системи (включаючи мову, вигляд інтерфейсу, опції експорту), а також редагувати контент: товари, опитування, категорії.
+     Гнучка модульна архітектура забезпечує можливість масштабування системи, додаючи нову функціональність без необхідності переписувати існуючий код.
+     UML діаграми винесені у додаток Б.
+     Розглянемо найцікавіші аспекти файли веб частини. Сторінка Statistics візуалізує дані, надає інтерактивні елементи управління, працює з графіками, фільтрує та оброблює статистичні данні. Код сторінки розміщений у додатку В. Файл api.js організовує API запити, обробку помилок, роботу з токенами та типізацію відповідей. Файл розміщений у додатку В. ProtectedRoute.jsx захищає маршрути, перевіряє права доступу, перенаправляє на інші сторінки та обробляє стан завантаження: 
+  1 import { Navigate } from "react-router-dom";
+  2
+  3 export const ProtectedRoute = ({ children, allowedRoles }) => {
+  4   const isAdmin = sessionStorage.getItem("Admin") !== null;
+  5   const isConsultant = sessionStorage.getItem("Consultant") !== null;
+  6
+  7   const userRole = isAdmin ? "admin" : isConsultant ? "consultant" : "none";
+  8
+  9   if (!allowedRoles.includes(userRole)) {
+ 10     // Redirect to appropriate dashboard based on role
+ 11     if (isConsultant) {
+ 12       return <Navigate to="/consultant-dashboard" replace />;
+ 13     } else if (isAdmin) {
+ 14       return <Navigate to="/admin" replace />;
+ 15     } else {
+ 16       return <Navigate to="/" replace />;
+ 17     }
+ 18   }
+ 19
+ 20   return children;
+ 21 };
+     Було протестовано коректну роботу програмної системи для проведення рекламної акції за допомогою користувацького інтерфейсу. Встановлено, що система працює відповідно до очікувань, за виключенням збою роботи MongoDB (при демонстрації веб частини продемонстрована проблема і доведено, що це не пов’язано з роботою програмної системи для проведення рекламної акції).
+     Було записане відео тестування веб частини системи та опубліковано на YouTube відповідно до поставлених вимог (див. додаток А).
+
+
+
+
+
+
+
+
+
+
+
+
+
+4 ВИСНОВКИ
+     
+     
+     У межах лабораторної роботи було реалізовано веб частину програмної системи для проведення рекламної акції. Система побудована на основі сучасних вебтехнологій із використанням React, React Router, Context API, i18next та інших бібліотек, що забезпечують компонентність, масштабованість, багатомовність і безпеку.
+     Розробка охопила повний функціональний цикл: від створення інтерфейсу користувача до налаштування адміністративної панелі, що дозволяє керувати опитуваннями, товарами, користувачами та аналітикою. Особливу увагу приділено захисту даних (JWT, RBAC, валідація, захист від атак), а також підтримці локалізації та інтерналізації, що забезпечує зручність використання системи для широкого кола користувачів.
+     Під час тестування система продемонструвала стабільну роботу та відповідність заявленому функціоналу. Виявлений збій бази даних MongoDB не пов’язаний із реалізованою програмною системою і був продемонстрований під час захисту. Таким чином, поставлені завдання було виконано повністю, а результати розробки підтверджено відеофіксацією.
+     
+     
+     
+
+
+
+
+
+
+
+     
+ДОДАТОК А
+     Відеозапис доповіді на YouTube: https://youtu.be/WkKuuaIWIG4 
+     
+     
+     Хронологічний опис відеозапису:
+     00:00 - вступ;
+     00:31 - тестування панелі консультанта;
+     06:38 - тестування панелі адміністратора.
+
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+ДОДАТОК Б
+Графічні матеріали
+
+
+
+Рисунок Б.1   UML діаграма компонентів (перша частина)
+
+
+Рисунок Б.2   UML діаграма компонентів (друга частина)
+
+
+Рисунок Б.3   UML діаграма прецедентів
+
+
+
+Рисунок Б.4   UML діаграма станів
+
+
+Рисунок Б.5   UML діаграма діяльності
+
+
+
+
+
+ДОДАТОК В
+Програмний код
+
+
+В.1 Файл Statistics.jsx
+Репозиторій: https://github.com/NureBureikoNataliia/apz-pzpi-22-8-bureiko-nataliia/blob/3b4364f9c6b66e29b6ee85dbd9fcdbfdccfc36ef/Lab3/pzpi-22-8-bureiko-nataliia-lab3/src/pages/Statistics.jsx 
+
+  1 import React, { useState, useEffect } from 'react';
+  2 import { getStatistics, getSurveys, getCompletedSurveys } from '../services/api';
+  3 import { useNavigate } from 'react-router-dom';
+  4 import axios from 'axios';
+  5 import {
+  6     BarChart,
+  7     Bar,
+  8     XAxis,
+  9     YAxis,
+ 10     CartesianGrid,
+ 11     Tooltip,
+ 12     Legend,
+ 13     ResponsiveContainer,
+ 14     PieChart,
+ 15     Pie,
+ 16     Cell
+ 17 } from 'recharts';
+ 18 import {
+ 19     Card,
+ 20     Title,
+ 21     Text,
+ 22     TabGroup,
+ 23     TabList,
+ 24     Tab,
+ 25     TabPanels,
+ 26     TabPanel,
+ 27     Grid
+ 28 } from "@tremor/react";
+ 29
+ 30 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
+ 31
+ 32 const StatisticsPage = () => {
+ 33     const navigate = useNavigate();
+ 34     const [loading, setLoading] = useState(true);
+ 35     const [error, setError] = useState(null);
+ 36     const [stats, setStats] = useState({
+ 37         questions: [],
+ 38         mostCommonAgeRange: {},
+ 39         popularCategories: []
+ 40     });
+ 41     const [surveys, setSurveys] = useState([]);
+ 42     const [selectedSurvey, setSelectedSurvey] = useState(null);
+ 43     const [selectedQuestion, setSelectedQuestion] = useState(null);
+ 44     const [completedSurveys, setCompletedSurveys] = useState({});
+ 45
+ 46     useEffect(() => {
+ 47         // Check for authentication
+ 48         const adminToken = sessionStorage.getItem("Admin");
+ 49         const consultantToken = sessionStorage.getItem("Consultant");
+ 50
+ 51         if (!adminToken && !consultantToken) {
+ 52             navigate('/');
+ 53             return;
+ 54         }
+ 55
+ 56         // Set the authorization header
+ 57         const token = adminToken || consultantToken;
+ 58         axios.defaults.headers.common["authorization"] = `Bearer ${token}`;
+ 59
+ 60         loadData();
+ 61     }, [navigate]);
+ 62
+ 63     const loadData = async () => {
+ 64         try {
+ 65             setLoading(true);
+ 66             setError(null);
+ 67
+ 68             // Load each data source separately to handle individual failures
+ 69             try {
+ 70                 const statsData = await getStatistics();
+ 71                 setStats(statsData);
+ 72             } catch (err) {
+ 73                 console.error('Error loading statistics:', err);
+ 74                 throw new Error('Failed to load statistics data');
+ 75             }
+ 76
+ 77             try {
+ 78                 const surveysData = await getSurveys();
+ 79                 setSurveys(surveysData || []);
+ 80                 // Set first survey as default if available
+ 81                 if (surveysData && surveysData.length > 0) {
+ 82                     setSelectedSurvey(surveysData[0]);
+ 83                 }
+ 84             } catch (err) {
+ 85                 console.error('Error loading surveys:', err);
+ 86                 setSurveys([]);
+ 87             }
+ 88
+ 89             try {
+ 90                 const completedData = await getCompletedSurveys();
+ 91                 setCompletedSurveys(completedData || {});
+ 92             } catch (err) {
+ 93                 console.error('Error loading completed surveys:', err);
+ 94                 setCompletedSurveys({});
+ 95             }
+ 96
+ 97         } catch (err) {
+ 98             setError(err.message || 'Error loading statistics');
+ 99         } finally {
+100             setLoading(false);
+101         }
+102     };
+103
+104     // Add retry button handler
+105     const handleRetry = () => {
+106         loadData();
+107     };
+108
+109     // Get questions for selected survey
+110     const getQuestionsForSurvey = () => {
+111         if (!selectedSurvey) return [];
+112         return stats.questions.filter(q =>
+113             selectedSurvey.questions.includes(q._id)
+114         );
+115     };
+116
+117     // Transform answers data for the selected question
+118     const getAnswersChartData = () => {
+119         if (!selectedQuestion) return [];
+120         return selectedQuestion.answers.map(answer => ({
+121             name: answer.text,
+122             value: answer.count || 0
+123         }));
+124     };
+125
+126     // Get age distribution data
+127     const getAgeDistributionData = () => {
+128         const ageRanges = {
+129             male: stats.mostCommonAgeRange.male || {},
+130             female: stats.mostCommonAgeRange.female || {}
+131         };
+132
+133         // Define age range labels
+134         const ageRangeLabels = {
+135             0: 'Under 12',
+136             1: '12-18',
+137             2: '18-30',
+138             3: '30-40',
+139             4: '40-65',
+140             5: '65+'
+141         };
+142
+143         // Get all unique age ranges
+144         const allRanges = [...new Set([
+145             ...Object.keys(ageRanges.male),
+146             ...Object.keys(ageRanges.female)
+147         ])];
+148
+149         const sortedRanges = allRanges.sort((a, b) => {
+150             const aNum = parseInt(a);
+151             const bNum = parseInt(b);
+152
+153             if (!isNaN(aNum) && !isNaN(bNum)) {
+154                 return aNum - bNum;
+155             }
+156
+157             if (typeof a === 'string' && typeof b === 'string' && a.includes('-') && b.includes('-')) {
+158                 const [aMin] = a.split('-').map(Number);
+159                 const [bMin] = b.split('-').map(Number);
+160                 return aMin - bMin;
+161             }
+162
+163             return 0;
+164         });
+165
+166         return sortedRanges.map(range => {
+167             const label = ageRangeLabels[range] || `Range ${range}`;
+168
+169
+170             const maleCount = Number(ageRanges.male[range]) || 0;
+171             const femaleCount = Number(ageRanges.female[range]) || 0;
+172
+173             return {
+174                 range: label,
+175                 male: maleCount,
+176                 female: femaleCount,
+177             };
+178         });
+179     };
+180     // Get popular categories data
+181     const getCategoriesData = () => {
+182         return stats.popularCategories.map((cat, index) => ({
+183             name: cat.name,
+184             value: 1,
+185             color: COLORS[index % COLORS.length]
+186         }));
+187     };
+188
+189     // Custom tooltip for answers chart
+190     const CustomTooltip = ({ active, payload }) => {
+191         if (active && payload && payload.length) {
+192             return (
+193                 <div className="bg-white p-4 shadow-lg rounded-lg border">
+194                     <p className="font-medium">{payload[0].payload.name}</p>
+195                     <p className="text-gray-600">
+196                         Responses: <span className="font-medium">{payload[0].value}</span>
+197                     </p>
+198                 </div>
+199             );
+200         }
+201         return null;
+202     };
+203
+204     if (loading) {
+205         return (
+206             <div className="min-h-screen flex items-center justify-center">
+207                 <div className="text-center">
+208                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+209                     <p className="mt-4 text-gray-600">Loading statistics...</p>
+210                 </div>
+211             </div>
+212         );
+213     }
+214
+215     if (error) {
+216         return (
+217             <div className="min-h-screen flex items-center justify-center">
+218                 <div className="text-center">
+219                     <p className="text-red-600 text-lg mb-4">{error}</p>
+220                     <button
+221                         onClick={handleRetry}
+222                         className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+223                     >
+224                         Try Again
+225                     </button>
+226                 </div>
+227             </div>
+228         );
+229     }
+230
+231     return (
+232         <div className="container mx-auto px-4 py-8">
+233             <div className="mb-8">
+234                 <Title className="text-3xl font-bold text-gray-900">Survey Statistics</Title>
+235                 <Text className="mt-2 text-gray-600">Comprehensive overview of survey responses and demographics</Text>
+236             </div>
+237
+238             <TabGroup>
+239                 <TabList className="mb-8">
+240                     <Tab>Questions & Answers</Tab>
+241                     <Tab>Demographics</Tab>
+242                     <Tab>Categories</Tab>
+243                 </TabList>
+244
+245                 <TabPanels>
+246                     <TabPanel>
+247                         {/* Questions and Answers Chart */}
+248                         <Card className="mt-4">
+249                             <Title>Survey Responses Analysis</Title>
+250                             <Text className="mt-2">Select a survey and question to view response distribution</Text>
+251
+252                             {/* Survey selector */}
+253                             <div className="mt-4">
+254                                 <Text className="mb-2 font-medium">Select Survey:</Text>
+255                                 <select
+256                                     className="w-full p-2 border rounded-lg"
+257                                     value={selectedSurvey?._id || ''}
+258                                     onChange={(e) => {
+259                                         const survey = surveys.find(s => s._id === e.target.value);
+260                                         setSelectedSurvey(survey);
+261                                         setSelectedQuestion(null);
+262                                     }}
+263                                 >
+264                                     <option value="">Select a survey...</option>
+265                                     {surveys.map(survey => (
+266                                         <option key={survey._id} value={survey._id}>
+267                                             {survey.name}
+268                                         </option>
+269                                     ))}
+270                                 </select>
+271                             </div>
+272
+273                             {/* Question selector */}
+274                             {selectedSurvey && (
+275                                 <div className="mt-4">
+276                                     <Text className="mb-2 font-medium">Select Question:</Text>
+277                                     <select
+278                                         className="w-full p-2 border rounded-lg"
+279                                         value={selectedQuestion?._id || ''}
+280                                         onChange={(e) => {
+281                                             const question = getQuestionsForSurvey().find(q => q._id === e.target.value);
+282                                             setSelectedQuestion(question);
+283                                         }}
+284                                     >
+285                                         <option value="">Select a question...</option>
+286                                         {getQuestionsForSurvey().map(question => (
+287                                             <option key={question._id} value={question._id}>
+288                                                 {question.question}
+289                                             </option>
+290                                         ))}
+291                                     </select>
+292                                 </div>
+293                             )}
+294
+295                             {/* Selected question details */}
+296                             {selectedQuestion && (
+297                                 <div className="mt-6">
+298                                     <Text className="font-medium text-lg">{selectedQuestion.question}</Text>
+299                                     <div className="h-96 mt-4">
+300                                         <ResponsiveContainer width="100%" height="100%">
+301                                             <BarChart
+302                                                 data={getAnswersChartData()}
+303                                                 margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+304                                             >
+305                                                 <CartesianGrid strokeDasharray="3 3" />
+306                                                 <XAxis
+307                                                     dataKey="name"
+308                                                     angle={-45}
+309                                                     textAnchor="end"
+310                                                     height={60}
+311                                                     interval={0}
+312                                                 />
+313                                                 <YAxis
+314                                                     label={{ value: 'Number of Responses', angle: -90, position: 'insideLeft' }}
+315                                                     allowDecimals={false}
+316                                                 />
+317                                                 <Tooltip content={<CustomTooltip />} />
+318                                                 <Bar
+319                                                     dataKey="value"
+320                                                     fill="#8884d8"
+321                                                     name="Responses"
+322                                                 >
+323                                                     {getAnswersChartData().map((entry, index) => (
+324                                                         <Cell key={index} fill={COLORS[index % COLORS.length]} />
+325                                                     ))}
+326                                                 </Bar>
+327                                             </BarChart>
+328                                         </ResponsiveContainer>
+329                                     </div>
+330
+331                                     {/* Answer statistics */}
+332                                     <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+333                                         {getAnswersChartData().map((answer, index) => (
+334                                             <div
+335                                                 key={index}
+336                                                 className="p-4 rounded-lg"
+337                                                 style={{ backgroundColor: `${COLORS[index % COLORS.length]}15` }}
+338                                             >
+339                                                 <Text className="font-medium">{answer.name}</Text>
+340                                                 <Text className="text-2xl font-bold mt-2">{answer.value}</Text>
+341                                                 <Text className="text-sm text-gray-600">responses</Text>
+342                                             </div>
+343                                         ))}
+344                                     </div>
+345                                 </div>
+346                             )}
+347                         </Card>
+348                     </TabPanel>
+349
+350                     <TabPanel>
+351                         {/* Age Distribution */}
+352                         <Card className="mt-4">
+353                             <Title>Age Distribution Analysis</Title>
+354                             <Text className="mt-2">Distribution of respondents across different age groups by gender</Text>
+355
+356                             <div className="h-96 mt-8">
+357                                 <ResponsiveContainer width="100%" height="100%">
+358                                     <BarChart
+359                                         data={getAgeDistributionData()}
+360                                         margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+361                                     >
+362                                         <CartesianGrid strokeDasharray="3 3" />
+363                                         <XAxis dataKey="range" />
+364                                         <YAxis
+365                                             label={{ value: 'Number of People', angle: -90, position: 'insideLeft' }}
+366                                             allowDecimals={false}
+367                                         />
+368                                         <Tooltip />
+369                                         <Legend />
+370                                         <Bar dataKey="male" name="Male" fill="#3b82f6" stackId="gender" />
+371                                         <Bar dataKey="female" name="Female" fill="#ec4899" stackId="gender" />
+372                                     </BarChart>
+373                                 </ResponsiveContainer>
+374                             </div>
+375
+376                             {/* Age distribution statistics */}
+377                             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+378                                 {getAgeDistributionData().map((data, index) => (
+379                                     <div key={index} className="bg-gray-50 p-4 rounded-lg">
+380                                         <Text className="font-medium">{data.range}</Text>
+381                                         <div className="mt-2 space-y-1">
+382                                             <div className="flex justify-between items-center">
+383                                                 <Text className="text-blue-600">Male:</Text>
+384                                                 <Text className="font-medium">{data.male}</Text>
+385                                             </div>
+386                                             <div className="flex justify-between items-center">
+387                                                 <Text className="text-pink-600">Female:</Text>
+388                                                 <Text className="font-medium">{data.female}</Text>
+389                                             </div>
+390                                             <div className="flex justify-between items-center pt-1 border-t">
+391                                                 <Text>Total:</Text>
+392                                                 <Text className="font-bold">{data.male + data.female}</Text>
+393                                             </div>
+394                                         </div>
+395                                     </div>
+396                                 ))}
+397                             </div>
+398
+399                             {/* Overall Statistics */}
+400                             <div className="mt-8 bg-gray-50 p-4 rounded-lg">
+401                                 <Text className="font-medium text-lg mb-4">Overall Statistics</Text>
+402                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+403                                     {(() => {
+404                                         const data = getAgeDistributionData();
+405                                         const totalMale = data.reduce((sum, item) => sum + item.male, 0);
+406                                         const totalFemale = data.reduce((sum, item) => sum + item.female, 0);
+407                                         const total = totalMale + totalFemale;
+408
+409                                         return (
+410                                             <>
+411                                                 <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+412                                                     <Text className="text-blue-600">Total Male:</Text>
+413                                                     <Text className="font-bold">{totalMale}</Text>
+414                                                 </div>
+415                                                 <div className="flex justify-between items-center p-3 bg-pink-50 rounded-lg">
+416                                                     <Text className="text-pink-600">Total Female:</Text>
+417                                                     <Text className="font-bold">{totalFemale}</Text>
+418                                                 </div>
+419                                                 <div className="flex justify-between items-center p-3 bg-gray-100 rounded-lg">
+420                                                     <Text>Total Respondents:</Text>
+421                                                     <Text className="font-bold">{total}</Text>
+422                                                 </div>
+423                                             </>
+424                                         );
+425                                     })()}
+426                                 </div>
+427                             </div>
+428                         </Card>
+429                     </TabPanel>
+430
+431                     <TabPanel>
+432                         {/* Popular Categories */}
+433                         <Card className="mt-4">
+434                             <Title>Most Popular Categories</Title>
+435                             <Text className="mt-2">Distribution of popular product categories based on survey responses</Text>
+436                             <div className="h-96 mt-8">
+437                                 <ResponsiveContainer width="100%" height="100%">
+438                                     <PieChart>
+439                                         <Pie
+440                                             data={getCategoriesData()}
+441                                             cx="50%"
+442                                             cy="50%"
+443                                             labelLine={false}
+444                                             label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+445                                             outerRadius={150}
+446                                             fill="#8884d8"
+447                                             dataKey="value"
+448                                         >
+449                                             {getCategoriesData().map((entry, index) => (
+450                                                 <Cell key={`cell-${index}`} fill={entry.color} />
+451                                             ))}
+452                                         </Pie>
+453                                         <Tooltip />
+454                                     </PieChart>
+455                                 </ResponsiveContainer>
+456                             </div>
+457
+458                             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+459                                 {getCategoriesData().map((category, index) => (
+460                                     <div
+461                                         key={index}
+462                                         className="flex items-center p-3 rounded-lg"
+463                                         style={{ backgroundColor: `${category.color}15` }}
+464                                     >
+465                                         <div
+466                                             className="w-3 h-3 rounded-full mr-3"
+467                                             style={{ backgroundColor: category.color }}
+468                                         />
+469                                         <Text>{category.name}</Text>
+470                                     </div>
+471                                 ))}
+472                             </div>
+473                         </Card>
+474                     </TabPanel>
+475                 </TabPanels>
+476             </TabGroup>
+477         </div>
+478     );
+479 };
+480
+481 export default StatisticsPage;
+
+
+В.2 Файл api.js
+Репозиторій:  https://github.com/NureBureikoNataliia/apz-pzpi-22-8-bureiko-nataliia/blob/3b4364f9c6b66e29b6ee85dbd9fcdbfdccfc36ef/Lab3/pzpi-22-8-bureiko-nataliia-lab3/src/services/api.js 
+
+    1 import axios from "axios";
+  2
+  3 const URL = "http://localhost:3000";
+  4
+  5 // Products
+  6 export async function getProducts() {
+  7   const response = await axios.get(`${URL}/products`);
+  8   if (response.status === 200) {
+  9     return response.data;
+ 10   } else {
+ 11     return;
+ 12   }
+ 13 }
+ 14
+ 15 export async function getProduct(id) {
+ 16   const response = await axios.get(`${URL}/products/${id}`);
+ 17
+ 18   const product = response.data;
+ 19   const data = await getImage(product.imageId);
+ 20   product.image = data;
+ 21   return product;
+ 22 }
+ 23
+ 24 export async function createProduct(product) {
+ 25   const data = await createImage(product.file);
+ 26
+ 27   console.log(product);
+ 28   const imageId = product.file.name;
+ 29
+ 30   product.imageId = imageId;
+ 31
+ 32   const response = await axios.post(`${URL}/products`, product);
+ 33   return response;
+ 34 }
+ 35
+ 36 export async function updateProduct(id, product) {
+ 37   let updatedProduct = { ...product };
+ 38
+ 39   if (product.file) {
+ 40     const imageId = await createImage(product.file);
+ 41     updatedProduct.imageId = imageId;
+ 42   } else {
+ 43     const existingProduct = await getProduct(id);
+ 44     updatedProduct.imageId = existingProduct.imageId;
+ 45   }
+ 46
+ 47   delete updatedProduct.file;
+ 48
+ 49   const response = await axios.put(`${URL}/products/${id}`, updatedProduct);
+ 50   return response;
+ 51 }
+ 52
+ 53 export async function deleteProduct(id) {
+ 54   const response = await axios.delete(`${URL}/products/${id}`);
+ 55   return response;
+ 56 }
+ 57
+ 58 // Employees (formerly Admins)
+ 59 export async function getEmployees() {
+ 60     const response = await axios.get(`${URL}/employees`);
+ 61     if (response.status === 200) {
+ 62         return response.data;
+ 63     } else {
+ 64         return;
+ 65     }
+ 66 }
+ 67
+ 68 export async function getEmployee(id) {
+ 69     const response = await axios.get(`${URL}/employees/${id}`);
+ 70     if (response.status === 200) {
+ 71         return response.data;
+ 72     } else {
+ 73         return;
+ 74     }
+ 75 }
+ 76
+ 77 export async function updateEmployee(id, employee) {
+ 78     const response = await axios.put(`${URL}/employees/${id}`, employee);
+ 79     return response;
+ 80 }
+ 81
+ 82 export async function deleteEmployee(id) {
+ 83     const response = await axios.delete(`${URL}/employees/${id}`);
+ 84     return response;
+ 85 }
+ 86
+ 87 // Create new employee (administrators and consultants)
+ 88 export async function createEmployee(employee) {
+ 89     const response = await axios.post(`${URL}/employees`, employee)
+ 90     return response
+ 91 }
+ 92
+ 93 // Employee authentication
+ 94 export async function verifyEmployee(employee) {
+ 95     console.log("Sending data to /employees/login:", employee);
+ 96
+ 97     const response = await axios.post(`${URL}/employees/login`, employee)
+ 98
+ 99     if(response.data.success) {
+100         return {
+101             token: response.data.token,
+102             admin: response.data.admin, // boolean from database (true = administrator, false = consultant)
+103             user: response.data.user // optional: user details
+104         }
+105     } else {
+106         return null
+107     }
+108 }
+109
+110 // Get employees by role (optional helper functions)
+111 export async function getAdministrators() {
+112     const response = await axios.get(`${URL}/employees?admin=true`);
+113     if (response.status === 200) {
+114         return response.data;
+115     } else {
+116         return;
+117     }
+118 }
+119
+120 export async function getConsultants() {
+121     const response = await axios.get(`${URL}/employees?admin=false`);
+122     if (response.status === 200) {
+123         return response.data;
+124     } else {
+125         return;
+126     }
+127 }
+128
+129
+130 // Surveys
+131 export async function getSurveys() {
+132   const response = await axios.get(`${URL}/surveys`);
+133   if (response.status === 200) {
+134     return response.data;
+135   } else {
+136     return;
+137   }
+138 }
+139
+140 export async function getSurvey(id) {
+141   const response = await axios.get(`${URL}/surveys/${id}`);
+142   if (response.status === 200) {
+143     return response.data;
+144   } else {
+145     return;
+146   }
+147 }
+148
+149 export async function createSurvey(survey) {
+150   const response = await axios.post(`${URL}/surveys`, survey);
+151   return response;
+152 }
+153
+154 export async function updateSurvey(id, survey) {
+155   const response = await axios.put(`${URL}/surveys/${id}`, survey);
+156   return response;
+157 }
+158
+159 export async function deleteSurvey(id) {
+160   const response = await axios.delete(`${URL}/surveys/${id}`);
+161   return response;
+162 }
+163
+164 // Questions
+165 export async function getQuestions() {
+166   const response = await axios.get(`${URL}/questions`);
+167   if (response.status === 200) {
+168     return response.data;
+169   } else {
+170     return;
+171   }
+172 }
+173
+174 export async function getQuestion(id) {
+175   const response = await axios.get(`${URL}/questions/${id}`);
+176   if (response.status === 200) {
+177     return response.data;
+178   } else {
+179     return;
+180   }
+181 }
+182
+183 export async function createQuestion(question) {
+184   const response = await axios.post(`${URL}/questions`, question);
+185   return response;
+186 }
+187
+188 export async function updateQuestion(id, question) {
+189   const response = await axios.put(`${URL}/questions/${id}`, question);
+190   return response;
+191 }
+192
+193 export async function deleteQuestion(id) {
+194   const response = await axios.delete(`${URL}/questions/${id}`);
+195   return response;
+196 }
+197
+198 // Answers
+199 export async function getAnswers() {
+200   const response = await axios.get(`${URL}/answers`);
+201   if (response.status === 200) {
+202     return response.data;
+203   } else {
+204     return;
+205   }
+206 }
+207
+208 export async function getAnswer(id) {
+209   const response = await axios.get(`${URL}/answers/${id}`);
+210   if (response.status === 200) {
+211     return response.data;
+212   } else {
+213     return;
+214   }
+215 }
+216
+217 export async function createAnswer(answer) {
+218   const response = await axios.post(`${URL}/answers`, answer);
+219   return response;
+220 }
+221
+222 export async function updateAnswer(id, answer) {
+223   const response = await axios.put(`${URL}/answers/${id}`, answer);
+224   return response;
+225 }
+226
+227 export async function deleteAnswer(id) {
+228   const response = await axios.delete(`${URL}/answers/${id}`);
+229   return response;
+230 }
+231
+232 // Categories
+233 export async function getCategories() {
+234   const response = await axios.get(`${URL}/categories`);
+235   if (response.status === 200) {
+236     return response.data;
+237   } else {
+238     return;
+239   }
+240 }
+241
+242 export async function getCategory(id) {
+243   const response = await axios.get(`${URL}/categories/${id}`);
+244   if (response.status === 200) {
+245     return response.data;
+246   } else {
+247     return;
+248   }
+249 }
+250
+251 export async function createCategory(category) {
+252   const response = await axios.post(`${URL}/categories`, category);
+253   return response;
+254 }
+255
+256 export async function updateCategory(id, category) {
+257   const response = await axios.put(`${URL}/categories/${id}`, category);
+258   return response;
+259 }
+260
+261 export async function deleteCategory(id) {
+262   const response = await axios.delete(`${URL}/categories/${id}`);
+263   return response;
+264 }
+265
+266 // Priorities
+267 export async function getPriorities() {
+268   const response = await axios.get(`${URL}/priorities`);
+269   if (response.status === 200) {
+270     return response.data;
+271   } else {
+272     return;
+273   }
+274 }
+275
+276 export async function getPriority(id) {
+277   const response = await axios.get(`${URL}/priorities/${id}`);
+278   if (response.status === 200) {
+279     return response.data;
+280   } else {
+281     return;
+282   }
+283 }
+284
+285 export async function createPriority(priority) {
+286   const response = await axios.post(`${URL}/priorities`, priority);
+287   return response;
+288 }
+289
+290 export async function updatePriority(id, priority) {
+291   const response = await axios.put(`${URL}/priorities/${id}`, priority);
+292   return response;
+293 }
+294
+295 export async function deletePriority(id) {
+296   const response = await axios.delete(`${URL}/priorities/${id}`);
+297   return response;
+298 }
+299
+300 export async function createImage(file) {
+301   const formData = new FormData();
+302   formData.append("image", file);
+303   const response = await axios.post(`${URL}/images`, formData, {
+304     headers: {
+305       "Cobtent-Type": "multipart/form-data",
+306     },
+307   });
+308
+309   return response;
+310 }
+311
+312 // Get all clients
+313 export async function getClients() {
+314   const response = await axios.get(`${URL}/clients`);
+315   if (response.status === 200) {
+316     return response.data;
+317   } else {
+318     return;
+319   }
+320 }
+321
+322 // Get a client by ID
+323 export async function getClient(id) {
+324   const response = await axios.get(`${URL}/clients/${id}`);
+325   if (response.status === 200) {
+326     return response.data;
+327   } else {
+328     return;
+329   }
+330 }
+331
+332 // Create a new client
+333 export async function createClient(client) {
+334   const response = await axios.post(`${URL}/clients`, client);
+335   return response;
+336 }
+337
+338 // Update a client
+339 export async function updateClient(id, client) {
+340   const response = await axios.put(`${URL}/clients/${id}`, client);
+341   return response;
+342 }
+343
+344 export async function getImage(id) {
+345   const response = await axios.get(`${URL}/images/${id}`);
+346   return response;
+347 }
+348
+349 // Statistics
+350 export async function getStatistics() {
+351   const response = await axios.get(`${URL}/statistics`);
+352   if (response.status === 200) {
+353     return response.data;
+354   } else {
+355     return;
+356   }
+357 }
+358
+359 export async function getCompletedSurveys() {
+360   const response = await axios.get(`${URL}/completed-surveys`);
+361   if (response.status === 200) {
+362     return response.data;
+363   } else {
+364     return;
+365   }
+366 }
+
+
+
+
+
+
+
+
+
+
+
+
+2
+
+
